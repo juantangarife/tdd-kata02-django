@@ -5,9 +5,9 @@ from . import views
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^editar/(?P<idTrabajador>\d+)$', views.editar_perfil, name='editar'),
-    url(r'^login$', views.login),
+    url(r'^login$', views.login, name='login'),
     url(r'^register', views.register),
-    url(r'^logout$', views.logout),
+    url(r'^logout$', views.logout, name='logout'),
     url(r'^trabajador/(?P<pk>\d+)$', views.detail),
     url(r'^detail', views.detalle_trabajador),
     url(r'^addComment', views.add_comment),

@@ -36,7 +36,7 @@
             </a>
         </li>
         <li>
-            <a href="logout">
+            <a href="{% url 'busco_ayuda:logout' %}">
                 <span class="glyphicon glyphicon-log-out"></span> Logout
             </a>
         </li>
@@ -111,6 +111,7 @@
     </div>
 {% endif %}
 {% include "busco_ayuda_app/registro.html" %}
+{% include 'busco_ayuda_app/login.html' %}
 <!--suppress JSUnresolvedFunction -->
 <script>
     $(document).ready(function () {

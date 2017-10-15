@@ -70,11 +70,15 @@ class FunctionalTest(TestCase):
         link = self.browser.find_element_by_id('id_login')
         link.click()
 
-        username = self.browser.find_element_by_id('id_username')
-        username.send_keys('pruebaskata')
+        username = self.browser.find_element_by_id('id_login_username')
+        username.send_keys('juan645')
 
-        password = self.browser.find_element_by_id('id_password')
-        password.send_keys('desarrolloagil')
+        password = self.browser.find_element_by_id('id_login_password')
+        password.send_keys('clave123')
+
+        boton_login = self.browser.find_element_by_id('id_login_boton')
+        boton_login.click()
+        self.browser.implicitly_wait(3)
 
         message = self.browser.find_element_by_id('id_messages')
         self.assertIn('Bienvenido al sistema', message.text)

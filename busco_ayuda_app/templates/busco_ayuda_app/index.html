@@ -78,7 +78,7 @@
                     <a class="trabajador" href="#" data-form="{{ trabajador.id }}" style="text-decoration: none;">
                         <!--suppress HtmlUnknownTarget -->
                         <img class="thumbnail img-responsive center-block"
-                             src="https://miso4202.s3.amazonaws.com/{{ trabajador.imagen }}" width="300"
+                             src="{{ trabajador.imagen.url }}" width="300"
                              height="300">
                         <span>{{ trabajador.nombre }} {{ trabajador.apellidos }}</span>
                     </a>

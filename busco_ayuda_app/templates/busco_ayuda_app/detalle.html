@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +10,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
             integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
             crossorigin="anonymous"></script>
-    <script src="/designMatch/recursos/jquery.bootpag.min.js"></script>
+    <script src="{% static 'busco_ayuda_app/jquery.bootpag.min.js' %}"></script>
     <script>
         var trabajador = localStorage.getItem('trabajador');
 
@@ -17,7 +18,7 @@
             $.getJSON("/trabajador/" + trabajador).done(function (data) {
                 $.each(data, function (key, val) {
                     $('#nombres').prepend('<h2>' + val.fields.nombre + ' ' + val.fields.apellidos + '</h2>');
-                    $('#foto').prepend('<a><img src="https://miso4202.s3.amazonaws.com/' + val.fields.imagen + '" class="media-object" style="width: 250px; height: 300px"></a>');
+                    $('#foto').prepend('<a><img src="/media/' + val.fields.imagen + '" class="media-object" style="width: 250px; height: 300px"></a>');
                     $('#detalle').prepend('<br><br><br>' +
                             '<h4><b>Experiencia: </b>' + val.fields.aniosExperiencia + ' años</h4><br>' +
                             '<h4><b>Telefono: </b>' + val.fields.telefono + '</h4><br>' +

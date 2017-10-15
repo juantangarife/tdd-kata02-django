@@ -1,0 +1,5 @@
+kata_django_env/
+*.pyc
+.idea/
+busco_ayuda_app/migrations/
+media/

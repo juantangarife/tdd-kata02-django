@@ -2,11 +2,14 @@ __author__ = 'asistente'
 from unittest import TestCase
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+import os
+from busco_ayuda.settings import BASE_DIR
+
 
 class FunctionalTest(TestCase):
 
     def setUp(self):
-        self.browser = webdriver.Firefox()
+        self.browser = webdriver.Chrome(os.path.join(BASE_DIR, 'test-resources', 'chromedriver.exe'))
         self.browser.implicitly_wait(2)
 
     def tearDown(self):
@@ -38,7 +41,7 @@ class FunctionalTest(TestCase):
         correo.send_keys('jd.patino1@uniandes.edu.co')
 
         imagen = self.browser.find_element_by_id('id_imagen')
-        imagen.send_keys('C:\Users\asistente\Desktop\developer.jpg')
+        imagen.send_keys(os.path.join(BASE_DIR, 'test-resources', 'best-places-for-web-developer-jobs.jpg'))
 
         nombreUsuario = self.browser.find_element_by_id('id_username')
         nombreUsuario.send_keys('juan645')

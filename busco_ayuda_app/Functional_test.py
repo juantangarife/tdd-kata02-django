@@ -11,7 +11,7 @@ current_milli_time = lambda: int(round(time.time() * 1000))
 class FunctionalTest(TestCase):
 
     def setUp(self):
-        self.browser = webdriver.Chrome(os.path.join(BASE_DIR, 'test-resources', 'chromedriver.exe'))
+        self.browser = webdriver.Chrome(os.path.join(BASE_DIR, 'test-resources', 'chromedriver'))
         self.browser.implicitly_wait(2)
 
     def tearDown(self):
@@ -114,3 +114,24 @@ class FunctionalTest(TestCase):
 
         message = self.browser.find_element_by_id('id_messages')
         self.assertIn('Su perfil fue actualizado correctamente', message.text)
+
+    def test_comentario(self):
+        self.browser.get('http://127.0.0.1:8000/detail')
+
+        correo_temp = 'juan645'+str(current_milli_time())+'@gmail.com'
+        correo = self.browser.find_element_by_id('correo')
+        correo.send_keys(correo_temp)
+
+        comentario_temp = 'Soy el comentario' + str(current_milli_time())
+        comentario = self.browser.find_element_by_id('comentario')
+        comentario.send_keys(comentario_temp)
+
+        boton_comentario = self.browser.find_element_by_id('id_comentario_button')
+        boton_comentario.click()
+
+        correo_new = self.browser.find_element_by_class_name('correo-detail')
+        comnetario_new = self.browser.find_element_by_class_name('comentario-detail')
+
+        self.assertEquals(correo_temp, correo_new.text, "Comparacion de correos en la funcionalida de adicion comentarios")
+        self.assertEquals(comentario_temp, comnetario_new.text,
+                          "Comparacion de comentarios en la funcionalida de adicion comentarios")

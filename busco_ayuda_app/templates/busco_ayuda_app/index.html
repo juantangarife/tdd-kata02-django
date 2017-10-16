@@ -73,7 +73,7 @@
         <div class="input-group">
             <input type="text" class="form-control" placeholder="Buscar" name="srch-term" id="buscar">
             <div class="input-group-btn">
-                <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                <button  id="boton-buscar-trabajador" class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
             </div>
         </div>
     </form>
@@ -84,7 +84,7 @@
             <div class="col-sm-4 col-md-3">
                 <div class="panel panel-default">
                     <div class="panel-heading" style="text-align: center; background-color: black;">
-                        <span style="color: white; font-size: large;">{{ trabajador.tiposDeServicio.nombre }}</span>
+                        <span class="nombre-servicio" style="color: white; font-size: large;">{{ trabajador.tiposDeServicio.nombre }}</span>
                         <!--suppress HtmlUnknownTarget -->
                         <img src="https://miso4202.s3.amazonaws.com/{{ trabajador.tiposDeServicio.imagen }}"/>
                     </div>
@@ -155,13 +155,13 @@
                     var div = '<div class="col-sm-4 col-md-3">' +
                         '<div class="panel panel-default">' +
                         '<div class="panel-heading" style="text-align: center; background-color: black;">' +
-                        '<span style="color: white; font-size: large;">' + tipo + '</span>' +
+                        '<span class="nombre-servicio" style="color: white; font-size: large;">' + tipo + '</span>' +
                         '<img src="https://miso4202.s3.amazonaws.com/' + imagenTipo + '" />' +
                         '</div>' +
                         '<div class="panel-body" style="text-align: center">' +
                         '<a onclick="detalle(' + val.pk + ')" class="trabajador" href="#" data-form="' + val.fields.id + '" style="text-decoration: none;">' +
                         '<img class="thumbnail img-responsive center-block"' +
-                        'src="https://miso4202.s3.amazonaws.com/' + val.fields.imagen + '" width="300"' +
+                        'src="/media/' + val.fields.imagen + '" width="300"' +
                         'height="300">' +
                         '<span>' + val.fields.nombre + ' ' + val.fields.apellidos + '</span>' +
                         '</a>' +

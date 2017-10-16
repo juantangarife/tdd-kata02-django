@@ -11,6 +11,7 @@ from .forms import TrabajadorForm, UserForm
 from django.shortcuts import render, get_object_or_404
 from django.contrib import messages
 from django.contrib import auth
+from django.db.models import Q
 
 
 def index(request):
@@ -18,6 +19,10 @@ def index(request):
     tipos_de_servicios = TiposDeServicio.objects.all()
     form_trabajador = TrabajadorForm(request.POST)
     form_usuario = UserForm(request.POST)
+
+    search_term = request.GET.get('srch-term', '')
+    if search_term != '':
+        trabajadores = trabajadores.filter(Q(nombre__icontains=search_term) | Q(apellidos__icontains=search_term))
 
     context = {'trabajadores': trabajadores, 'tipos_de_servicios': tipos_de_servicios,
                'form_trabajador': form_trabajador, 'form_usuario': form_usuario, 'base_url': settings.STATIC_URL}

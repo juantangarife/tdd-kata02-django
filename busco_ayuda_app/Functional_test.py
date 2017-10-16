@@ -4,6 +4,8 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 import os
 from busco_ayuda.settings import BASE_DIR
+import time
+current_milli_time = lambda: int(round(time.time() * 1000))
 
 
 class FunctionalTest(TestCase):
@@ -44,7 +46,7 @@ class FunctionalTest(TestCase):
         imagen.send_keys(os.path.join(BASE_DIR, 'test-resources', 'best-places-for-web-developer-jobs.jpg'))
 
         nombreUsuario = self.browser.find_element_by_id('id_username')
-        nombreUsuario.send_keys('juan645')
+        nombreUsuario.send_keys('juan645'+str(current_milli_time()))
 
         clave = self.browser.find_element_by_id('id_password')
         clave.send_keys('clave123')
@@ -52,7 +54,7 @@ class FunctionalTest(TestCase):
         botonGrabar = self.browser.find_element_by_id('id_grabar')
         botonGrabar.click()
         self.browser.implicitly_wait(3)
-        span=self.browser.find_element(By.XPATH, '//span[text()="Juan Daniel Arevalo"]')
+        span = self.browser.find_element(By.XPATH, '//span[text()="Juan Daniel Arevalo"]')
 
         self.assertIn('Juan Daniel Arevalo', span.text)
 
@@ -87,10 +89,10 @@ class FunctionalTest(TestCase):
         self.browser.get('http://localhost:8000/editar/2')
 
         nombre = self.browser.find_element_by_id('id_nombre')
-        nombre.send_keys('Juan Daniel')
+        nombre.send_keys(' updated')
 
         apellidos = self.browser.find_element_by_id('id_apellidos')
-        apellidos.send_keys('Arevalo')
+        apellidos.send_keys(' updated')
 
         experiencia = self.browser.find_element_by_id('id_aniosExperiencia')
         experiencia.send_keys('5')
@@ -98,10 +100,10 @@ class FunctionalTest(TestCase):
         self.browser.find_element_by_xpath(
             "//select[@id='id_tiposDeServicio']/option[text()='Desarrollador Web']").click()
         telefono = self.browser.find_element_by_id('id_telefono')
-        telefono.send_keys('3173024578')
+        telefono.send_keys('2')
 
         correo = self.browser.find_element_by_id('id_correo')
-        correo.send_keys('jd.patino1@uniandes.edu.co')
+        correo.send_keys('.com')
 
         imagen = self.browser.find_element_by_id('id_imagen')
         imagen.send_keys(os.path.join(BASE_DIR, 'test-resources', 'best-places-for-web-developer-jobs.jpg'))

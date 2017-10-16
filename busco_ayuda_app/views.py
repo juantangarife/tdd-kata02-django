@@ -77,6 +77,7 @@ def editar_perfil(request, idTrabajador):
         if form_trabajador.is_valid():
             # formulario validado correctamente
             form_trabajador.save()
+            messages.success(request, "Su perfil fue actualizado correctamente", extra_tags="alert-success")
             return HttpResponseRedirect('/')
 
     else:

@@ -116,7 +116,10 @@ class FunctionalTest(TestCase):
         self.assertIn('Su perfil fue actualizado correctamente', message.text)
 
     def test_comentario(self):
-        self.browser.get('http://127.0.0.1:8000/detail')
+        self.browser.get('http://localhost:8000')
+        span = self.browser.find_element(By.XPATH, '//span[text()="Juan Daniel Arevalo"]')
+        span.click()
+        self.browser.implicitly_wait(3)
 
         correo_temp = 'juan645'+str(current_milli_time())+'@gmail.com'
         correo = self.browser.find_element_by_id('correo')
@@ -128,6 +131,7 @@ class FunctionalTest(TestCase):
 
         boton_comentario = self.browser.find_element_by_id('id_comentario_button')
         boton_comentario.click()
+        self.browser.implicitly_wait(3)
 
         correo_new = self.browser.find_element_by_class_name('correo-detail')
         comnetario_new = self.browser.find_element_by_class_name('comentario-detail')
@@ -135,3 +139,4 @@ class FunctionalTest(TestCase):
         self.assertEquals(correo_temp, correo_new.text, "Comparacion de correos en la funcionalida de adicion comentarios")
         self.assertEquals(comentario_temp, comnetario_new.text,
                           "Comparacion de comentarios en la funcionalida de adicion comentarios")
+

@@ -82,3 +82,33 @@ class FunctionalTest(TestCase):
 
         message = self.browser.find_element_by_id('id_messages')
         self.assertIn('Bienvenido al sistema', message.text)
+
+    def test_editar(self):
+        self.browser.get('http://localhost:8000/editar/2')
+
+        nombre = self.browser.find_element_by_id('id_nombre')
+        nombre.send_keys('Juan Daniel')
+
+        apellidos = self.browser.find_element_by_id('id_apellidos')
+        apellidos.send_keys('Arevalo')
+
+        experiencia = self.browser.find_element_by_id('id_aniosExperiencia')
+        experiencia.send_keys('5')
+
+        self.browser.find_element_by_xpath(
+            "//select[@id='id_tiposDeServicio']/option[text()='Desarrollador Web']").click()
+        telefono = self.browser.find_element_by_id('id_telefono')
+        telefono.send_keys('3173024578')
+
+        correo = self.browser.find_element_by_id('id_correo')
+        correo.send_keys('jd.patino1@uniandes.edu.co')
+
+        imagen = self.browser.find_element_by_id('id_imagen')
+        imagen.send_keys(os.path.join(BASE_DIR, 'test-resources', 'best-places-for-web-developer-jobs.jpg'))
+
+        botonGrabar = self.browser.find_element_by_id('id_grabar')
+        botonGrabar.click()
+        self.browser.implicitly_wait(3)
+
+        message = self.browser.find_element_by_id('id_messages')
+        self.assertIn('Su perfil fue actualizado correctamente', message.text)

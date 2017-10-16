@@ -1,15 +1,19 @@
 __author__ = 'asistente'
+from busco_ayuda.wsgi import application
 from unittest import TestCase
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 import os
 from busco_ayuda.settings import BASE_DIR
 import time
-current_milli_time = lambda: int(round(time.time() * 1000))
+from busco_ayuda_app.models import Trabajador
+from django.db.models import Q
+
+def current_milli_time():
+    int(round(time.time() * 1000))
 
 
 class FunctionalTest(TestCase):
-
     def setUp(self):
         self.browser = webdriver.Chrome(os.path.join(BASE_DIR, 'test-resources', 'chromedriver'))
         self.browser.implicitly_wait(2)
@@ -35,7 +39,8 @@ class FunctionalTest(TestCase):
         experiencia = self.browser.find_element_by_id('id_aniosExperiencia')
         experiencia.send_keys('5')
 
-        self.browser.find_element_by_xpath("//select[@id='id_tiposDeServicio']/option[text()='Desarrollador Web']").click()
+        self.browser.find_element_by_xpath(
+            "//select[@id='id_tiposDeServicio']/option[text()='Desarrollador Web']").click()
         telefono = self.browser.find_element_by_id('id_telefono')
         telefono.send_keys('3173024578')
 
@@ -46,7 +51,7 @@ class FunctionalTest(TestCase):
         imagen.send_keys(os.path.join(BASE_DIR, 'test-resources', 'best-places-for-web-developer-jobs.jpg'))
 
         nombreUsuario = self.browser.find_element_by_id('id_username')
-        nombreUsuario.send_keys('juan645'+str(current_milli_time()))
+        nombreUsuario.send_keys('juan645' + str(current_milli_time()))
 
         clave = self.browser.find_element_by_id('id_password')
         clave.send_keys('clave123')
@@ -60,10 +65,10 @@ class FunctionalTest(TestCase):
 
     def test_verDetalle(self):
         self.browser.get('http://localhost:8000')
-        span=self.browser.find_element(By.XPATH, '//span[text()="Juan Daniel Arevalo"]')
+        span = self.browser.find_element(By.XPATH, '//span[text()="Juan Daniel Arevalo"]')
         span.click()
 
-        h2=self.browser.find_element(By.XPATH, '//h2[text()="Juan Daniel Arevalo"]')
+        h2 = self.browser.find_element(By.XPATH, '//h2[text()="Juan Daniel Arevalo"]')
 
         self.assertIn('Juan Daniel Arevalo', h2.text)
 
@@ -121,7 +126,7 @@ class FunctionalTest(TestCase):
         span.click()
         self.browser.implicitly_wait(3)
 
-        correo_temp = 'juan645'+str(current_milli_time())+'@gmail.com'
+        correo_temp = 'juan645' + str(current_milli_time()) + '@gmail.com'
         correo = self.browser.find_element_by_id('correo')
         correo.send_keys(correo_temp)
 
@@ -136,7 +141,18 @@ class FunctionalTest(TestCase):
         correo_new = self.browser.find_element_by_class_name('correo-detail')
         comnetario_new = self.browser.find_element_by_class_name('comentario-detail')
 
-        self.assertEquals(correo_temp, correo_new.text, "Comparacion de correos en la funcionalida de adicion comentarios")
+        self.assertEquals(correo_temp, correo_new.text,
+                          "Comparacion de correos en la funcionalida de adicion comentarios")
         self.assertEquals(comentario_temp, comnetario_new.text,
                           "Comparacion de comentarios en la funcionalida de adicion comentarios")
 
+    def test_buscar_trabajador(self):
+        self.browser.get('http://localhost:8000')
+        buscar = self.browser.find_element_by_id('buscar')
+        buscar.send_keys('arevalo')
+        boton = self.browser.find_element_by_id('boton-buscar-trabajador')
+        boton.click()
+        self.browser.implicitly_wait(3)
+        results = self.browser.find_elements_by_class_name('nombre-servicio')
+        query = Trabajador.objects.filter(Q(nombre__icontains ='arevalo') | Q(apellidos__icontains='arevalo'))
+        self.assertEquals(len(results), query.count(), 'Numero de trabajadores por nombre/apellido')
